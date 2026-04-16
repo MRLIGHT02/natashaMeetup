@@ -11,7 +11,6 @@
       padding: 0;
       box-sizing: border-box;
       user-select: none;
-      /* keeps cinematic feel */
     }
 
     body {
@@ -21,7 +20,6 @@
       color: #f3e6ea;
     }
 
-    /* AUTO ANIMATED BACKGROUND + FLOATING HEARTS */
     .animated-bg {
       position: fixed;
       top: 0;
@@ -54,22 +52,18 @@
         transform: translateY(0) rotate(0deg);
         opacity: 0;
       }
-
       15% {
         opacity: 0.6;
       }
-
       85% {
         opacity: 0.4;
       }
-
       100% {
         transform: translateY(-110vh) rotate(360deg);
         opacity: 0;
       }
     }
 
-    /* MAIN WRAPPER - CINEMATIC SCROLL FRAME */
     .scroll-frame {
       max-width: 1400px;
       margin: 0 auto;
@@ -78,7 +72,6 @@
       z-index: 2;
     }
 
-    /* AUTO CAROUSEL SECTION (AUTO-SLIDE + INFINITE LOOP) */
     .carousel-zone {
       margin: 2rem 0 3rem;
       border-radius: 2rem;
@@ -147,7 +140,6 @@
       color: #ffd9e2;
     }
 
-    /* AUTO VIDEO & AUDIO GRID */
     .media-grid {
       display: flex;
       flex-wrap: wrap;
@@ -194,7 +186,6 @@
       letter-spacing: 1px;
     }
 
-    /* FIRST MEETING AUTO COUNTER */
     .meeting-memorial {
       background: linear-gradient(125deg, #1f0a12, #12060b);
       border-radius: 2.5rem;
@@ -249,7 +240,6 @@
       color: transparent;
     }
 
-    /* PHOTO GALLERY (auto arranged + hover animation) */
     .photo-gallery-auto {
       margin: 3rem 0;
     }
@@ -307,15 +297,14 @@
       color: #ffc0d0;
     }
 
-    /* AUDIO AUTO LOOP (immersive background music) */
     .audio-ambient {
       position: fixed;
       bottom: 18px;
       right: 18px;
       z-index: 99;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(12px);
-      padding: 8px 12px;
+      padding: 10px 16px;
       border-radius: 60px;
       display: flex;
       gap: 12px;
@@ -323,13 +312,48 @@
       border: 1px solid #ff6f9144;
       font-size: 0.8rem;
       pointer-events: auto;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .audio-ambient:hover {
+      background: rgba(232, 82, 106, 0.4);
+      border-color: #ff6f91;
     }
 
     .audio-ambient span {
       font-size: 1.2rem;
     }
 
-    /* LIGHTBOX */
+    /* Enable Music Button - Mobile Friendly */
+    .enable-music-overlay {
+      position: fixed;
+      bottom: 80px;
+      right: 18px;
+      z-index: 100;
+      background: linear-gradient(135deg, #e8526a, #c2365e);
+      padding: 12px 18px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      animation: pulse 1.5s infinite;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    .enable-music-overlay.hidden {
+      display: none;
+    }
+
     .lightbox {
       display: none;
       position: fixed;
@@ -369,20 +393,17 @@
       filter: drop-shadow(0 0 6px black);
     }
 
-    /* animations */
     @keyframes fadeRise {
       from {
         opacity: 0;
         transform: translateY(35px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
-    /* SCROLL REVEAL */
     .reveal-on-scroll {
       opacity: 0;
       transform: translateY(40px);
@@ -406,9 +427,13 @@
       .scroll-frame {
         padding: 0.5rem 1rem;
       }
-
       .counter-number {
         font-size: 1.8rem;
+      }
+      .enable-music-overlay {
+        bottom: 70px;
+        padding: 8px 14px;
+        font-size: 0.75rem;
       }
     }
   </style>
@@ -421,17 +446,13 @@
 
   <div class="scroll-frame">
 
-    <!-- AUTO CAROUSEL : photos of girls & love moments (infinite auto-slide) -->
     <div class="carousel-zone reveal-on-scroll">
       <div class="carousel-title">💞 ETERNAL GLANCES 💞</div>
       <div class="carousel-container">
-        <div class="carousel-track" id="carouselTrack">
-          <!-- slides will be injected via js -->
-        </div>
+        <div class="carousel-track" id="carouselTrack"></div>
       </div>
     </div>
 
-    <!-- AUTO VIDEO SECTION (plays automatically on page load, muted to bypass policy, but we unmute after first tap - but autoplay works because muted) -->
     <div class="media-grid reveal-on-scroll">
       <div class="video-auto-card">
         <div class="video-wrapper">
@@ -459,7 +480,6 @@
       </div>
     </div>
 
-    <!-- FIRST MEETING DAY + AUTO COUNTER (live update) -->
     <div class="meeting-memorial reveal-on-scroll">
       <div class="glow-text">💖 FIRST MEETING DAY 💖</div>
       <div class="meeting-date-display" id="meetingDateLabel">📅 15th April 2026</div>
@@ -480,7 +500,6 @@
       <div style="margin-top: 12px; font-size:0.85rem;">✨ Every second counts in our story ✨</div>
     </div>
 
-    <!-- PHOTO GALLERY (girls / love bird images) auto layout -->
     <div class="photo-gallery-auto reveal-on-scroll">
       <div class="section-title">📸 Our Treasured Frames</div>
       <div class="grid-photos" id="photoGalleryGrid"></div>
@@ -492,16 +511,21 @@
     </footer>
   </div>
 
-  <!-- AUDIO AMBIENT (auto background music, will autoplay muted initially but we trigger after any interaction + we also try autoplay) -->
+  <!-- Enable Music Button (Mobile Friendly) -->
+  <div class="enable-music-overlay" id="enableMusicBtn">
+    <span>🔊</span>
+    <span>Tap to Play Music</span>
+  </div>
+
   <div class="audio-ambient" id="audioControlBar">
     <span>🎵</span>
-    <span id="musicStatus">Background Melody ♪</span>
+    <span id="musicStatus">💗 Music ready — tap above 💗</span>
   </div>
+  
   <audio id="bgAutoMusic" loop preload="auto">
     <source src="ta.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- LIGHTBOX -->
   <div id="lightbox" class="lightbox">
     <button class="close-lb" id="closeLightboxBtn">✕</button>
     <img class="lightbox-img" id="lightboxImage" src="" alt="Romantic Memory">
@@ -509,35 +533,34 @@
 
   <script>
     // ------------------------------------------------------------------
-    // 1) AUTO CAROUSEL (infinite rotating with images of girls / love bird)
+    // 1) AUTO CAROUSEL
     // ------------------------------------------------------------------
     const carouselImages = [
       { url: "1.jpeg", caption: "🌸 Angelic Smile" },
       { url: "2.jpeg", caption: "✨ Eternal Glow" },
       { url: "3.jpeg", caption: "💫 Starry Eyes" },
       { url: "4.jpeg", caption: "🌺 Nature's Beauty" },
-      { url: "5.jpeg", caption: "🦋 Graceful Soul" },];
+      { url: "5.jpeg", caption: "🦋 Graceful Soul" },
+    ];
+    
     const track = document.getElementById('carouselTrack');
     let currentIndex = 0;
     let autoInterval;
 
     function buildCarousel() {
       track.innerHTML = '';
-      carouselImages.forEach((img, idx) => {
+      carouselImages.forEach((img) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
         slide.innerHTML = `
-        <img src="${img.url}" alt="love moment" loading="lazy">
-        <div class="carousel-caption">${img.caption}</div>
-      `;
+          <img src="${img.url}" alt="love moment" loading="lazy">
+          <div class="carousel-caption">${img.caption}</div>
+        `;
         track.appendChild(slide);
       });
-      // clone first and last for seamless infinite? but we use transform jump
-      // simpler: rotate by index reset after last
     }
 
     function updateCarousel() {
-      const width = track.parentElement.clientWidth;
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
@@ -548,7 +571,7 @@
 
     function startCarousel() {
       if (autoInterval) clearInterval(autoInterval);
-      autoInterval = setInterval(nextSlideAuto, 3200); // auto every 3.2 sec
+      autoInterval = setInterval(nextSlideAuto, 3200);
     }
 
     buildCarousel();
@@ -556,11 +579,9 @@
     window.addEventListener('resize', () => updateCarousel());
 
     // ------------------------------------------------------------------
-    // 2) FIRST MEETING DAY (dynamic counter)
+    // 2) FIRST MEETING COUNTER
     // ------------------------------------------------------------------
-    // ** SET YOUR FIRST MEETING DATE HERE **
-    const FIRST_MEETING = new Date(2026, 4, 15); // 14 Feb 2024 -> change as you like (year, monthIndex, day)
-    // Example: 2024, 0, 1  -> Jan 1 2024. Edit for your own magical day.
+    const FIRST_MEETING = new Date(2026, 3, 15);
     const meetingDateObj = new Date(FIRST_MEETING);
     const meetingLabel = document.getElementById('meetingDateLabel');
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -586,10 +607,9 @@
     setInterval(updateLoveCounter, 60000);
 
     // ------------------------------------------------------------------
-    // 3) PHOTO GALLERY (girls / love photos) with lightbox
+    // 3) PHOTO GALLERY
     // ------------------------------------------------------------------
     const galleryPhotos = [];
-
     for (let i = 6; i <= 13; i++) {
       galleryPhotos.push({
         url: `./${i}.jpeg`,
@@ -604,9 +624,9 @@
         const div = document.createElement('div');
         div.className = 'photo-item';
         div.innerHTML = `
-        <img src="${photo.url}" alt="${photo.caption}" loading="lazy">
-        <div class="photo-caption-mini">💗 ${photo.caption}</div>
-      `;
+          <img src="${photo.url}" alt="${photo.caption}" loading="lazy">
+          <div class="photo-caption-mini">💗 ${photo.caption}</div>
+        `;
         div.addEventListener('click', () => {
           const lightbox = document.getElementById('lightbox');
           const lbImg = document.getElementById('lightboxImage');
@@ -618,7 +638,7 @@
     }
     renderGallery();
 
-    // Lightbox close
+    // Lightbox
     const lightboxEl = document.getElementById('lightbox');
     const closeBtn = document.getElementById('closeLightboxBtn');
     function closeLightbox() {
@@ -630,41 +650,54 @@
     });
 
     // ------------------------------------------------------------------
-    // 4) AUTO BACKGROUND MUSIC (starts muted, but we auto-play muted)
-    //    then after any user interaction, unmute & increase volume
+    // 4) MOBILE-FRIENDLY MUSIC PLAYBACK
     // ------------------------------------------------------------------
     const bgMusic = document.getElementById('bgAutoMusic');
     const musicStatusSpan = document.getElementById('musicStatus');
+    const enableMusicBtn = document.getElementById('enableMusicBtn');
+    let musicPlaying = false;
 
-    // attempt autoplay muted (by default chrome allows muted autoplay)
-    bgMusic.volume = 0.0; // start muted
+    // Function to start music (called by user tap)
+    function startMusic() {
+      if (musicPlaying) return;
+      
+      // Unmute and play
+      bgMusic.muted = false;
+      bgMusic.volume = 0.4;
+      
+      bgMusic.play().then(() => {
+        musicPlaying = true;
+        musicStatusSpan.innerHTML = "🎵 Love Melody ♪ Playing";
+        musicStatusSpan.style.color = "#ffb7c5";
+        // Hide the enable button
+        enableMusicBtn.classList.add('hidden');
+      }).catch((err) => {
+        console.log("Playback error:", err);
+        musicStatusSpan.innerHTML = "🎵 Tap again to play";
+      });
+    }
+
+    // Add click/tap listener to the enable button
+    enableMusicBtn.addEventListener('click', startMusic);
+    
+    // Also listen for any tap on the audio bar as backup
+    const audioBar = document.getElementById('audioControlBar');
+    audioBar.addEventListener('click', startMusic);
+
+    // Try a silent preload - don't autoplay, just prepare
+    bgMusic.load();
+    
+    // Also try to play muted first (some browsers allow)
     bgMusic.muted = true;
     bgMusic.play().then(() => {
-      musicStatusSpan.innerText = "🎵 BGM Playing (muted) Tap to Unmute";
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
     }).catch(() => {
-      musicStatusSpan.innerText = "🎵 Tap for music";
+      // Silently fail - user will tap the button
     });
 
-    // after first user interaction anywhere -> unmute, set volume 0.4, and show it's playing
-    let musicUnlocked = false;
-    function unlockMusic() {
-      if (musicUnlocked) return;
-      musicUnlocked = true;
-      bgMusic.muted = false;
-      bgMusic.volume = 0.35;
-      bgMusic.play().then(() => {
-        musicStatusSpan.innerHTML = "🎵 Love Melody ♪ Playing";
-      }).catch(() => { });
-      document.removeEventListener('click', unlockMusic);
-      document.removeEventListener('touchstart', unlockMusic);
-    }
-    document.addEventListener('click', unlockMusic);
-    document.addEventListener('touchstart', unlockMusic);
-
-    // also volume can be controlled manually but for full auto we keep as is.
-
     // ------------------------------------------------------------------
-    // 5) FLOATING HEARTS AUTO ANIMATION
+    // 5) FLOATING HEARTS
     // ------------------------------------------------------------------
     const heartContainer = document.getElementById('heartContainer');
     function createHeart() {
@@ -686,7 +719,7 @@
     for (let i = 0; i < 12; i++) setTimeout(createHeart, i * 400);
 
     // ------------------------------------------------------------------
-    // 6) SCROLL REVEAL ANIMATION (auto elements appear)
+    // 6) SCROLL REVEAL
     // ------------------------------------------------------------------
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
     const observer = new IntersectionObserver((entries) => {
@@ -698,16 +731,13 @@
     }, { threshold: 0.2, rootMargin: "0px 0px -40px 0px" });
     revealElements.forEach(el => observer.observe(el));
 
-    // additionally auto video loop + they are already muted autoplay
+    // Auto-play videos (already muted)
     const allVideos = document.querySelectorAll('.auto-video');
     allVideos.forEach(vid => {
-      vid.addEventListener('loadedmetadata', () => {
-        vid.play().catch(e => console.log("video autoplay ok muted"));
-      });
+      vid.play().catch(e => console.log("video muted autoplay"));
     });
 
-    // smooth page effect: manual note that everything auto plays without extra pay option
-    console.log("Love Bird Frame — fully automatic carousel, videos, music, counter, gallery ready");
+    console.log("Love Bird Frame — Mobile music ready! Tap the pink button to enable sound.");
   </script>
 </body>
 
