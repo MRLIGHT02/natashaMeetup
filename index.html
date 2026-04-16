@@ -436,7 +436,7 @@
       <div class="video-auto-card">
         <div class="video-wrapper">
           <video class="auto-video" autoplay muted loop playsinline>
-            <source src="./natashavidoesphoto/v2.mp4" type="video/mp4">
+            <source src="v2.mp4" type="video/mp4">
           </video>
         </div>
         <div class="vid-label">🎬 First Dance of Hearts</div>
@@ -444,7 +444,7 @@
       <div class="video-auto-card">
         <div class="video-wrapper">
           <video class="auto-video" autoplay muted loop playsinline>
-            <source src="./natashavidoesphoto/v5.mp4" type="video/mp4">
+            <source src="v5.mp4" type="video/mp4">
           </video>
         </div>
         <div class="vid-label">🌹 Timeless Embrace</div>
@@ -452,7 +452,7 @@
       <div class="video-auto-card">
         <div class="video-wrapper">
           <video class="auto-video" autoplay muted loop playsinline>
-            <source src="./natashavidoesphoto/v3.mp4" type="video/mp4">
+            <source src="v3.mp4" type="video/mp4">
           </video>
         </div>
         <div class="vid-label">✨ Starlight Memories</div>
@@ -512,11 +512,11 @@
     // 1) AUTO CAROUSEL (infinite rotating with images of girls / love bird)
     // ------------------------------------------------------------------
     const carouselImages = [
-      { url: "natashavidoesphoto/1.jpeg", caption: "🌸 Angelic Smile" },
-      { url: "natashavidoesphoto/2.jpeg", caption: "✨ Eternal Glow" },
-      { url: "natashavidoesphoto/3.jpeg", caption: "💫 Starry Eyes" },
-      { url: "natashavidoesphoto/4.jpeg", caption: "🌺 Nature's Beauty" },
-      { url: "natashavidoesphoto/5.jpeg", caption: "🦋 Graceful Soul" },];
+      { url: "1.jpeg", caption: "🌸 Angelic Smile" },
+      { url: "2.jpeg", caption: "✨ Eternal Glow" },
+      { url: "3.jpeg", caption: "💫 Starry Eyes" },
+      { url: "4.jpeg", caption: "🌺 Nature's Beauty" },
+      { url: "5.jpeg", caption: "🦋 Graceful Soul" },];
     const track = document.getElementById('carouselTrack');
     let currentIndex = 0;
     let autoInterval;
@@ -559,7 +559,7 @@
     // 2) FIRST MEETING DAY (dynamic counter)
     // ------------------------------------------------------------------
     // ** SET YOUR FIRST MEETING DATE HERE **
-    const FIRST_MEETING = new Date(2024, 1, 14); // 14 Feb 2024 -> change as you like (year, monthIndex, day)
+    const FIRST_MEETING = new Date(2026, 4, 15); // 14 Feb 2024 -> change as you like (year, monthIndex, day)
     // Example: 2024, 0, 1  -> Jan 1 2024. Edit for your own magical day.
     const meetingDateObj = new Date(FIRST_MEETING);
     const meetingLabel = document.getElementById('meetingDateLabel');
@@ -592,7 +592,7 @@
 
     for (let i = 6; i <= 13; i++) {
       galleryPhotos.push({
-        url: `natashavidoesphoto/${i}.jpeg`,
+        url: `./${i}.jpeg`,
         caption: `Photo ${i}`
       });
     }
