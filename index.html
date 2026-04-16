@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Love Story · Eternal Frames</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      /* keeps cinematic feel */
+    }
+
+    body {
+      background: #0f0508;
+      font-family: 'Segoe UI', 'Poppins', 'Cormorant Garamond', system-ui, sans-serif;
+      overflow-x: hidden;
+      color: #f3e6ea;
+    }
+
+    /* AUTO ANIMATED BACKGROUND + FLOATING HEARTS */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 20% 30%, #2a0c16, #0a0306);
+    }
+
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.6rem;
+      opacity: 0;
+      animation: floatHeart linear infinite;
+      filter: drop-shadow(0 0 6px #ff88aa);
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 0.6;
+      }
+
+      85% {
+        opacity: 0.4;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* MAIN WRAPPER - CINEMATIC SCROLL FRAME */
+    .scroll-frame {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* AUTO CAROUSEL SECTION (AUTO-SLIDE + INFINITE LOOP) */
+    .carousel-zone {
+      margin: 2rem 0 3rem;
+      border-radius: 2rem;
+      background: rgba(20, 8, 12, 0.55);
+      backdrop-filter: blur(3px);
+      padding: 1rem 0;
+      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .carousel-title {
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      background: linear-gradient(135deg, #ffb7c5, #ff6f91);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 28px;
+      margin: 0.8rem 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .carousel-slide img {
+      width: 90%;
+      max-width: 500px;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 2rem;
+      box-shadow: 0 30px 30px -15px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 120, 140, 0.5);
+      transition: transform 0.3s;
+    }
+
+    .carousel-caption {
+      margin-top: 1rem;
+      font-size: 1.3rem;
+      font-weight: 500;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      padding: 0.3rem 1.2rem;
+      border-radius: 60px;
+      font-family: 'Dancing Script', cursive;
+      color: #ffd9e2;
+    }
+
+    /* AUTO VIDEO & AUDIO GRID */
+    .media-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      margin: 3rem 0;
+    }
+
+    .video-auto-card {
+      flex: 1 1 320px;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(5px);
+      border-radius: 1.8rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 105, 130, 0.3);
+      transition: all 0.4s ease;
+      transform: translateY(0);
+    }
+
+    .video-auto-card:hover {
+      transform: translateY(-8px);
+      border-color: #ff6f91;
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+    }
+
+    .auto-video {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .vid-label {
+      padding: 0.8rem;
+      text-align: center;
+      font-weight: 500;
+      background: rgba(15, 5, 8, 0.7);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    /* FIRST MEETING AUTO COUNTER */
+    .meeting-memorial {
+      background: linear-gradient(125deg, #1f0a12, #12060b);
+      border-radius: 2.5rem;
+      padding: 2rem 1.5rem;
+      margin: 3rem 0;
+      text-align: center;
+      border: 1px solid rgba(255, 100, 120, 0.4);
+      backdrop-filter: blur(2px);
+    }
+
+    .glow-text {
+      font-size: 2rem;
+      font-weight: bold;
+      font-family: 'Dancing Script', cursive;
+      color: #ffb3c6;
+      text-shadow: 0 0 12px #ff4d6d;
+    }
+
+    .meeting-date-display {
+      font-size: 1.8rem;
+      margin: 0.5rem 0;
+      background: #2d111c60;
+      display: inline-block;
+      padding: 0.3rem 1.8rem;
+      border-radius: 60px;
+      letter-spacing: 2px;
+    }
+
+    .counter-auto {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin: 1.8rem 0;
+    }
+
+    .counter-unit {
+      background: #2f0e1a;
+      border-radius: 1.2rem;
+      padding: 0.8rem 1.5rem;
+      min-width: 110px;
+      border-bottom: 2px solid #ff6f91;
+    }
+
+    .counter-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      font-family: monospace;
+      background: linear-gradient(135deg, #ffb7c5, #ff6f91);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* PHOTO GALLERY (auto arranged + hover animation) */
+    .photo-gallery-auto {
+      margin: 3rem 0;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-family: 'Dancing Script', cursive;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(120deg, #ffbecf, #ff85a8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .grid-photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 1.2rem;
+      animation: fadeRise 0.8s ease;
+    }
+
+    .photo-item {
+      border-radius: 1.4rem;
+      overflow: hidden;
+      background: #1e0b12;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      cursor: pointer;
+      border: 1px solid #ff779450;
+    }
+
+    .photo-item img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s;
+    }
+
+    .photo-item:hover {
+      transform: scale(1.02);
+      border-color: #ff99b4;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .photo-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .photo-caption-mini {
+      padding: 6px;
+      text-align: center;
+      font-size: 0.75rem;
+      background: #16070ecc;
+      color: #ffc0d0;
+    }
+
+    /* AUDIO AUTO LOOP (immersive background music) */
+    .audio-ambient {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 99;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 8px 12px;
+      border-radius: 60px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid #ff6f9144;
+      font-size: 0.8rem;
+      pointer-events: auto;
+    }
+
+    .audio-ambient span {
+      font-size: 1.2rem;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(10px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 24px;
+      box-shadow: 0 0 50px rgba(255, 80, 120, 0.5);
+      border: 3px solid white;
+    }
+
+    .close-lb {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 2.5rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      filter: drop-shadow(0 0 6px black);
+    }
+
+    /* animations */
+    @keyframes fadeRise {
+      from {
+        opacity: 0;
+        transform: translateY(35px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* SCROLL REVEAL */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.7s ease;
+    }
+
+    .reveal-on-scroll.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2rem;
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 680px) {
+      .scroll-frame {
+        padding: 0.5rem 1rem;
+      }
+
+      .counter-number {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="animated-bg"></div>
+  <div class="floating-hearts" id="heartContainer"></div>
+
+  <div class="scroll-frame">
+
+    <!-- AUTO CAROUSEL : photos of girls & love moments (infinite auto-slide) -->
+    <div class="carousel-zone reveal-on-scroll">
+      <div class="carousel-title">💞 ETERNAL GLANCES 💞</div>
+      <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- slides will be injected via js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTO VIDEO SECTION (plays automatically on page load, muted to bypass policy, but we unmute after first tap - but autoplay works because muted) -->
+    <div class="media-grid reveal-on-scroll">
+      <div class="video-auto-card">
+        <div class="video-wrapper">
+          <video class="auto-video" autoplay muted loop playsinline>
+            <source src="./natashavidoesphoto/v2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="vid-label">🎬 First Dance of Hearts</div>
+      </div>
+      <div class="video-auto-card">
+        <div class="video-wrapper">
+          <video class="auto-video" autoplay muted loop playsinline>
+            <source src="./natashavidoesphoto/v5.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="vid-label">🌹 Timeless Embrace</div>
+      </div>
+      <div class="video-auto-card">
+        <div class="video-wrapper">
+          <video class="auto-video" autoplay muted loop playsinline>
+            <source src="./natashavidoesphoto/v3.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="vid-label">✨ Starlight Memories</div>
+      </div>
+    </div>
+
+    <!-- FIRST MEETING DAY + AUTO COUNTER (live update) -->
+    <div class="meeting-memorial reveal-on-scroll">
+      <div class="glow-text">💖 FIRST MEETING DAY 💖</div>
+      <div class="meeting-date-display" id="meetingDateLabel">📅 15th April 2026</div>
+      <div class="counter-auto">
+        <div class="counter-unit">
+          <div class="counter-number" id="daysTogether">0</div>
+          <div>Days of Love</div>
+        </div>
+        <div class="counter-unit">
+          <div class="counter-number" id="hoursTogether">0</div>
+          <div>Hours Blessed</div>
+        </div>
+        <div class="counter-unit">
+          <div class="counter-number" id="minutesTogether">0</div>
+          <div>Minutes of Magic</div>
+        </div>
+      </div>
+      <div style="margin-top: 12px; font-size:0.85rem;">✨ Every second counts in our story ✨</div>
+    </div>
+
+    <!-- PHOTO GALLERY (girls / love bird images) auto layout -->
+    <div class="photo-gallery-auto reveal-on-scroll">
+      <div class="section-title">📸 Our Treasured Frames</div>
+      <div class="grid-photos" id="photoGalleryGrid"></div>
+      <p style="text-align:center; margin-top:1rem; font-size:0.7rem;">💕 Click any photo to relive the moment 💕</p>
+    </div>
+
+    <footer>
+      🕊️ Every glance, every heartbeat — written in the stars 🕊️
+    </footer>
+  </div>
+
+  <!-- AUDIO AMBIENT (auto background music, will autoplay muted initially but we trigger after any interaction + we also try autoplay) -->
+  <div class="audio-ambient" id="audioControlBar">
+    <span>🎵</span>
+    <span id="musicStatus">Background Melody ♪</span>
+  </div>
+  <audio id="bgAutoMusic" loop preload="auto">
+    <source src="ta.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox">
+    <button class="close-lb" id="closeLightboxBtn">✕</button>
+    <img class="lightbox-img" id="lightboxImage" src="" alt="Romantic Memory">
+  </div>
+
+  <script>
+    // ------------------------------------------------------------------
+    // 1) AUTO CAROUSEL (infinite rotating with images of girls / love bird)
+    // ------------------------------------------------------------------
+    const carouselImages = [
+      { url: "natashavidoesphoto/1.jpeg", caption: "🌸 Angelic Smile" },
+      { url: "natashavidoesphoto/2.jpeg", caption: "✨ Eternal Glow" },
+      { url: "natashavidoesphoto/3.jpeg", caption: "💫 Starry Eyes" },
+      { url: "natashavidoesphoto/4.jpeg", caption: "🌺 Nature's Beauty" },
+      { url: "natashavidoesphoto/5.jpeg", caption: "🦋 Graceful Soul" },];
+    const track = document.getElementById('carouselTrack');
+    let currentIndex = 0;
+    let autoInterval;
+
+    function buildCarousel() {
+      track.innerHTML = '';
+      carouselImages.forEach((img, idx) => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `
+        <img src="${img.url}" alt="love moment" loading="lazy">
+        <div class="carousel-caption">${img.caption}</div>
+      `;
+        track.appendChild(slide);
+      });
+      // clone first and last for seamless infinite? but we use transform jump
+      // simpler: rotate by index reset after last
+    }
+
+    function updateCarousel() {
+      const width = track.parentElement.clientWidth;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    function nextSlideAuto() {
+      currentIndex = (currentIndex + 1) % carouselImages.length;
+      updateCarousel();
+    }
+
+    function startCarousel() {
+      if (autoInterval) clearInterval(autoInterval);
+      autoInterval = setInterval(nextSlideAuto, 3200); // auto every 3.2 sec
+    }
+
+    buildCarousel();
+    startCarousel();
+    window.addEventListener('resize', () => updateCarousel());
+
+    // ------------------------------------------------------------------
+    // 2) FIRST MEETING DAY (dynamic counter)
+    // ------------------------------------------------------------------
+    // ** SET YOUR FIRST MEETING DATE HERE **
+    const FIRST_MEETING = new Date(2024, 1, 14); // 14 Feb 2024 -> change as you like (year, monthIndex, day)
+    // Example: 2024, 0, 1  -> Jan 1 2024. Edit for your own magical day.
+    const meetingDateObj = new Date(FIRST_MEETING);
+    const meetingLabel = document.getElementById('meetingDateLabel');
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    meetingLabel.innerText = `📅 ${meetingDateObj.toLocaleDateString('en-US', options)}`;
+
+    function updateLoveCounter() {
+      const now = new Date();
+      const diffMs = now - meetingDateObj;
+      if (diffMs > 0) {
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor(diffMs / (1000 * 60));
+        document.getElementById('daysTogether').innerText = days.toLocaleString();
+        document.getElementById('hoursTogether').innerText = hours.toLocaleString();
+        document.getElementById('minutesTogether').innerText = minutes.toLocaleString();
+      } else {
+        document.getElementById('daysTogether').innerText = "0";
+        document.getElementById('hoursTogether').innerText = "0";
+        document.getElementById('minutesTogether').innerText = "0";
+      }
+    }
+    updateLoveCounter();
+    setInterval(updateLoveCounter, 60000);
+
+    // ------------------------------------------------------------------
+    // 3) PHOTO GALLERY (girls / love photos) with lightbox
+    // ------------------------------------------------------------------
+    const galleryPhotos = [];
+
+    for (let i = 6; i <= 13; i++) {
+      galleryPhotos.push({
+        url: `natashavidoesphoto/${i}.jpeg`,
+        caption: `Photo ${i}`
+      });
+    }
+
+    const galleryGrid = document.getElementById('photoGalleryGrid');
+    function renderGallery() {
+      galleryGrid.innerHTML = '';
+      galleryPhotos.forEach(photo => {
+        const div = document.createElement('div');
+        div.className = 'photo-item';
+        div.innerHTML = `
+        <img src="${photo.url}" alt="${photo.caption}" loading="lazy">
+        <div class="photo-caption-mini">💗 ${photo.caption}</div>
+      `;
+        div.addEventListener('click', () => {
+          const lightbox = document.getElementById('lightbox');
+          const lbImg = document.getElementById('lightboxImage');
+          lbImg.src = photo.url;
+          lightbox.classList.add('active');
+        });
+        galleryGrid.appendChild(div);
+      });
+    }
+    renderGallery();
+
+    // Lightbox close
+    const lightboxEl = document.getElementById('lightbox');
+    const closeBtn = document.getElementById('closeLightboxBtn');
+    function closeLightbox() {
+      lightboxEl.classList.remove('active');
+    }
+    closeBtn.addEventListener('click', closeLightbox);
+    lightboxEl.addEventListener('click', (e) => {
+      if (e.target === lightboxEl) closeLightbox();
+    });
+
+    // ------------------------------------------------------------------
+    // 4) AUTO BACKGROUND MUSIC (starts muted, but we auto-play muted)
+    //    then after any user interaction, unmute & increase volume
+    // ------------------------------------------------------------------
+    const bgMusic = document.getElementById('bgAutoMusic');
+    const musicStatusSpan = document.getElementById('musicStatus');
+
+    // attempt autoplay muted (by default chrome allows muted autoplay)
+    bgMusic.volume = 0.0; // start muted
+    bgMusic.muted = true;
+    bgMusic.play().then(() => {
+      musicStatusSpan.innerText = "🎵 BGM Playing (muted) Tap to Unmute";
+    }).catch(() => {
+      musicStatusSpan.innerText = "🎵 Tap for music";
+    });
+
+    // after first user interaction anywhere -> unmute, set volume 0.4, and show it's playing
+    let musicUnlocked = false;
+    function unlockMusic() {
+      if (musicUnlocked) return;
+      musicUnlocked = true;
+      bgMusic.muted = false;
+      bgMusic.volume = 0.35;
+      bgMusic.play().then(() => {
+        musicStatusSpan.innerHTML = "🎵 Love Melody ♪ Playing";
+      }).catch(() => { });
+      document.removeEventListener('click', unlockMusic);
+      document.removeEventListener('touchstart', unlockMusic);
+    }
+    document.addEventListener('click', unlockMusic);
+    document.addEventListener('touchstart', unlockMusic);
+
+    // also volume can be controlled manually but for full auto we keep as is.
+
+    // ------------------------------------------------------------------
+    // 5) FLOATING HEARTS AUTO ANIMATION
+    // ------------------------------------------------------------------
+    const heartContainer = document.getElementById('heartContainer');
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      const heartsArray = ['❤️', '💖', '💗', '💘', '💕', '💞', '🌸'];
+      heart.innerText = heartsArray[Math.floor(Math.random() * heartsArray.length)];
+      const size = Math.random() * 20 + 18;
+      heart.style.fontSize = `${size}px`;
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDuration = `${Math.random() * 8 + 6}s`;
+      heart.style.animationDelay = `${Math.random() * 5}s`;
+      heartContainer.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 10000);
+    }
+    setInterval(createHeart, 900);
+    for (let i = 0; i < 12; i++) setTimeout(createHeart, i * 400);
+
+    // ------------------------------------------------------------------
+    // 6) SCROLL REVEAL ANIMATION (auto elements appear)
+    // ------------------------------------------------------------------
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, { threshold: 0.2, rootMargin: "0px 0px -40px 0px" });
+    revealElements.forEach(el => observer.observe(el));
+
+    // additionally auto video loop + they are already muted autoplay
+    const allVideos = document.querySelectorAll('.auto-video');
+    allVideos.forEach(vid => {
+      vid.addEventListener('loadedmetadata', () => {
+        vid.play().catch(e => console.log("video autoplay ok muted"));
+      });
+    });
+
+    // smooth page effect: manual note that everything auto plays without extra pay option
+    console.log("Love Bird Frame — fully automatic carousel, videos, music, counter, gallery ready");
+  </script>
+</body>
+
+</html>
